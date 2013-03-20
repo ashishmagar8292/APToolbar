@@ -9,20 +9,42 @@
 </head>
 <body>
 <form action="Main_servlet" method="post">
-
 URL : <input type="text" name="main_url" >
 Submit : <input type="submit" name="S1" onclick = "myReq()">
-<!--<input type="submit" value="S1">  -->
+<!--<input type="submit" value="S1">  --> 
+<br>
+Result is : <%=  request.getParameter("result") %>
+
 <Script type="text/javascript">
+
+/* function abcd() {
+    if (this.readyState === 4) {
+
+          // onSuccess
+          if (this.status === 200 && typeof onSuccess == 'function') {
+              onSuccess(this.responseText);
+              alert(responseText);
+              alert("response header is " +request.getResponseHeader("name"));
+          }
+
+          // onError
+          else if(typeof onError == 'function') {
+              onError();
+          }
+
+      }
+ */
  function myReq()
 {
 	try
 	{
 		var stringParameter = "https://login.yahoo.com/config/login_verify2?&.src=ym";
-		//var stringParameter = main_url;		
 		var request=new XMLHttpRequest();
+		alert("i am here inside try");
 		request.open("GET", 'http://localhost:7001/APToolbar/Main_servlet?stringParameter=' + stringParameter, true);
 		request.send();
+	//	xmlHttp.onreadystatechange = abcd();
+		//alert(request.getAttribute("Resullt"));
 		return true;
   	}
 	catch(err)

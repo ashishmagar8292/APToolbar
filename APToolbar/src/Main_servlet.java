@@ -7,11 +7,12 @@ import java.io.IOException;
 //import java.io.InputStreamReader;
 //import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.net.URL;
+//import java.net.URL;
 import java.sql.SQLException;
 //import java.sql.SQLException;
 //import java.io.PrintWriter;
 
+//import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -51,11 +52,8 @@ public class Main_servlet extends HttpServlet {
 		 
 		
 
-			output = request.getParameter("stringParameter");
-			System.out.println("output is " + output);
-
-
-		
+			
+						    
 		
 		
 			}
@@ -73,12 +71,9 @@ public class Main_servlet extends HttpServlet {
 		 
 		 
 		 
-		 
 		System.out.println(output);
-		//
-	
-			
-/*		request.getParameter("toServer");
+		
+		/*		request.getParameter("toServer");
 		
 		 
 		InputStream is = request.getInputStream();
@@ -89,10 +84,24 @@ public class Main_servlet extends HttpServlet {
 */		
 	
 		
-	
+		 //request.setAttribute("Results", "ashish is great");
+	     //RequestDispatcher dispatcher = request.getRequestDispatcher("/redirect.jsp");
+	     //dispatcher.forward(request,response);
+	     //String bits="bittuz";
+
+		/*response.setHeader("name", "value");
+		response.setContentType("text/javascript");
+  		response.setStatus(HttpServletResponse.SC_OK);
+*/
 		
-		String m_url=request.getParameter("main_url");
-		//String m_url = output;
+  		PrintWriter out = response.getWriter();
+
+  		
+  		output = request.getParameter("stringParameter");
+		System.out.println("output is " + output);
+		
+		//String m_url=request.getParameter("main_url");
+		String m_url = output;
 		
 		
 		//String ash = request.getHeader();
@@ -114,7 +123,9 @@ public class Main_servlet extends HttpServlet {
 		boolean var_webtitle = false;
 		boolean var_urlkey=false;
 		boolean var_port = false;
+		String result = null;
 		String dname = new String();
+		
 		int susp_present=0,wl_present=0,pwd_present=1;
 		
 		DBFetcher obj = null;
@@ -145,7 +156,7 @@ System.out.println("dname = " + dname);
 		gobj = new GrabHtml();
 		System.out.println("first constru");
 		
-		PrintWriter out = response.getWriter();
+		//PrintWriter out = response.getWriter();
 		System.out.println("i m here");
         response.setContentType("text/html");
         try 
@@ -431,52 +442,67 @@ System.out.println("dname = " + dname);
     	   	}
         	//th_val = uobj.calcThreshold(var_csscont, th_val);
         	
-       	
+        	
         	
         	if(wl_present == 1)
         	{
         		out.print("<br>The threshold value is:"+th_val);
         		out.print("<br><b>Site in whitelist,  The site is safe</b> ");
+        		result="not phish";
         	}
         	else if(susp_present == 1)
         	{
         		out.print("<br>The threshold value is:"+th_val);
         		out.print("<br><b> Site in blacklst, The site is phish </b>");
+        		result="phish";
         	}
         	else if(pwd_present == 0)
         	{
         		out.print("<br>The threshold value is:"+th_val);
         		out.print("<br><b> Password field not present, no risk of phishing </b> ");
+        		result="not phish";
         	}
 
         	else if(th_val >= 7)
         	{
         		out.print("<br>The threshold value is:"+th_val);
         		out.print("<br><b> Threshold exceeded , The site is phish </b>");
+        		result="phish";
         	}
         	else
         	{
         		out.print("<br>The threshold value is:"+th_val);
         		out.print("<br><b> The site is safe </b>");
+        		result="not phish";
         		
         	}
         	
-        	URL url=new URL("http://www.google.co.in/");
-    		System.out.println("port no" + url.getPort() + "   protocol :" + url.getProtocol() +"    \n host:"+url.getHost());
         	
-        	 
+    		
+        	
+    	
         	
         	} //end of try
         	catch(Exception e)
         	{
         		System.out.println(e);
             }
-            	
+
+        	
+        response.setContentType("text/html");
+        PrintWriter pw = response.getWriter();
+        pw.write(result);
+        
+         //System.out.println(result);
+	     //response.sendRedirect("http://localhost:7001/APToolbar/redirect.jsp?result="+result);
+	     //response.setHeader("result",result);
+       
+
      }
      
 
 
-	
+	 	
 	
 
 
